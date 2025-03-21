@@ -26,31 +26,24 @@ fun NavigationHost(
 	NavHost(navController, startDestination = Route.FEED.name) {
 		composable(Route.FEED.name) {
 			FeedScreen(vm, navController) {
-				val encodedUrl = URLEncoder.encode(it.urlToImage, StandardCharsets.UTF_8.toString())
-				navController.navigate("${Route.DETAILS.name}/${it.title}&${it.content}&$encodedUrl")
+				val encodedUrl = URLEncoder.encode(it.url, StandardCharsets.UTF_8.toString())
+				navController.navigate("${Route.DETAILS.name}/$encodedUrl")
 			}
 		}
-		composable("${Route.DETAILS.name}/{title}&{desc}&{urlToImage}", arguments = listOf(
-			navArgument("title") {
-				type = NavType.StringType
-			},
-			navArgument("desc") {
-				type = NavType.StringType
-			},
-			navArgument("urlToImage") {
+		composable(
+			"${Route.DETAILS.name}/{url}", arguments = listOf(
+				navArgument("url") {
 				type = NavType.StringType
 			}
 		)) {
 			DetailsScreen(
-				it.arguments?.getString("title") ?: "",
-				it.arguments?.getString("desc") ?: "",
-				it.arguments?.getString("urlToImage") ?: ""
+				it.arguments?.getString("url")
 			)
 		}
 		composable(Route.SEARCH.name) {
 			SearchScreen(vm, navController){
-				val encodedUrl = URLEncoder.encode(it.urlToImage, StandardCharsets.UTF_8.toString())
-				navController.navigate("${Route.DETAILS.name}/${it.title}&${it.content}&$encodedUrl")
+				val encodedUrl = URLEncoder.encode(it.url, StandardCharsets.UTF_8.toString())
+				navController.navigate("${Route.DETAILS.name}/$encodedUrl")
 			}
 		}
 	}

@@ -1,9 +1,13 @@
 package com.example.news.ui.theme.screen
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
@@ -12,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.news.data.Article
 import com.example.news.ui.theme.NewsCard
@@ -31,12 +36,6 @@ fun FeedScreen(
 		Scaffold(
 			modifier = Modifier.fillMaxSize(),
 			bottomBar = {
-				/*var selectedItem by remember { mutableIntStateOf(0) }
-			items.forEachIndexed { index, navigationItem ->
-				if (navigationItem.rootRoute.route == currentRoute.value) {
-					selectedItem = index
-				}
-			}*/
 				NavigationBar {
 					items.forEach { item ->
 						NavigationBarItem(
@@ -48,28 +47,28 @@ fun FeedScreen(
 								)
 							},
 							label = { Text(item.title) },
-							selected = false,//selectedItem == index,
+							selected = false,
 							onClick = {
-								//selectedItem = index
-								navController.navigate(item.title) //{
-								/*navController.graph.startDestinationRoute?.let { route ->
-									popUpTo(route) {
-										saveState = true
-									}
-								}*//*
-								launchSingleTop = true
-								restoreState = true*/
-								//}
+								navController.navigate(item.title)
 							}
 						)
 					}
 				}
 			}
 		) { innerPadding ->
-			LazyColumn(modifier = Modifier.padding(innerPadding)) {
-				items(news?.articles ?: return@LazyColumn) { item ->
-					NewsCard(item.title, item.urlToImage) {
-						onCardClick(item)
+			Column(modifier = Modifier.padding(innerPadding)) {
+				if (news == null) {
+					LinearProgressIndicator(
+						modifier = Modifier.fillMaxWidth()
+					)
+				}
+				LazyColumn(
+					verticalArrangement = Arrangement.spacedBy(20.dp)
+				) {
+					items(news?.articles ?: return@LazyColumn) { item ->
+						NewsCard(item.title, item.description?:"", item.urlToImage) {
+							onCardClick(item)
+						}
 					}
 				}
 			}
