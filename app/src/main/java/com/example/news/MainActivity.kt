@@ -7,7 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.lifecycle.ViewModelProvider
 import com.example.news.repo.NewsRepository
 import com.example.news.repo.api.RetrofitObject.retrofitService
-import com.example.news.ui.theme.NavigationHost
+import com.example.news.ui.theme.navigation.NavigationHost
 import com.example.news.ui.theme.NewsTheme
 import com.example.news.viewmodel.MainViewModel
 import com.example.news.viewmodel.MainViewModelFactory

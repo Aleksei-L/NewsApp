@@ -11,4 +11,8 @@ class NewsRepository(
 	suspend fun getAllNewsFromApi(): NewsResponse = withContext(Dispatchers.IO) {
 		return@withContext newsApi.getAllNewsFromApi()
 	}
+
+	suspend fun searchNews(query: String): NewsResponse = withContext(Dispatchers.IO) {
+		return@withContext newsApi.searchNews(query = query)
+	}
 }

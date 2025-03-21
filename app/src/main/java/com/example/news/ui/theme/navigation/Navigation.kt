@@ -1,6 +1,10 @@
-package com.example.news.ui.theme
+package com.example.news.ui.theme.navigation
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Home
+import androidx.compose.material.icons.rounded.Search
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -9,6 +13,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.news.ui.theme.screen.DetailsScreen
 import com.example.news.ui.theme.screen.FeedScreen
+import com.example.news.ui.theme.screen.SearchScreen
 import com.example.news.viewmodel.MainViewModel
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
@@ -20,7 +25,7 @@ fun NavigationHost(
 ) {
 	NavHost(navController, startDestination = Route.FEED.name) {
 		composable(Route.FEED.name) {
-			FeedScreen(vm) {
+			FeedScreen(vm, navController) {
 				val encodedUrl = URLEncoder.encode(it.urlToImage, StandardCharsets.UTF_8.toString())
 				navController.navigate("${Route.DETAILS.name}/${it.title}&${it.content}&$encodedUrl")
 			}
@@ -43,11 +48,10 @@ fun NavigationHost(
 			)
 		}
 		composable(Route.SEARCH.name) {
-			/*val screenNum = backStackEntry.arguments?.getString("num") ?: "0"
-			SimpleScreen(
-				title = "${Route.HomeChild.title} $screenNum",
-				onNavigateToNextScreenClicked = { navigateToNextScreen(Route.HomeChild.route) }
-			)*/
+			SearchScreen(vm, navController){
+				val encodedUrl = URLEncoder.encode(it.urlToImage, StandardCharsets.UTF_8.toString())
+				navController.navigate("${Route.DETAILS.name}/${it.title}&${it.content}&$encodedUrl")
+			}
 		}
 	}
 }
@@ -56,4 +60,9 @@ enum class Route {
 	FEED,
 	DETAILS,
 	SEARCH
+}
+
+enum class Tabs(val title: String, val icon: ImageVector) {
+	HOME("Feed", Icons.Rounded.Home),
+	SEARCH("Search", Icons.Rounded.Search)
 }

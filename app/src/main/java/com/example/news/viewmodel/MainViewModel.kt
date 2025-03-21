@@ -14,6 +14,9 @@ class MainViewModel(
 	private val mNews = MutableLiveData<NewsResponse>()
 	val news: LiveData<NewsResponse> = mNews
 
+	private val mSearch = MutableLiveData<NewsResponse>()
+	val search: LiveData<NewsResponse> = mSearch
+
 	fun getNews() = viewModelScope.launch {
 		try {
 			mNews.postValue(repo.getAllNewsFromApi())
@@ -22,4 +25,11 @@ class MainViewModel(
 		}
 	}
 
+	fun searchNews(query: String) = viewModelScope.launch {
+		try {
+			mSearch.postValue(repo.searchNews(query))
+		} catch (e: Exception) {
+			e.printStackTrace()
+		}
+	}
 }

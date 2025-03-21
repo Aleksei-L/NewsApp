@@ -14,4 +14,11 @@ interface NewsApi {
 		@Query("country") country: String = "us",
 		@Header("User-Agent") header: String = "Mozilla/5.0"
 	): NewsResponse
+
+	@GET("v2/everything")
+	suspend fun searchNews(
+		@Query("q") query: String,
+		@Query("apiKey") key: String = API_KEY,
+		@Header("User-Agent") header: String = "Mozilla/5.0"
+	): NewsResponse
 }
