@@ -27,8 +27,10 @@ class MainActivity : ComponentActivity() {
 			MainViewModelFactory(NewsRepository(retrofitService))
 		)[MainViewModel::class.java]
 
+		val sharedPref = getSharedPreferences(getString(R.string.shared_pref), Context.MODE_PRIVATE)
+
 		enableEdgeToEdge()
-		setContent { NewsTheme { NavigationHost(vm) } }
+		setContent { NewsTheme { NavigationHost(vm, sharedPref, this) } }
 
 		registerNetworkMonitor()
 	}

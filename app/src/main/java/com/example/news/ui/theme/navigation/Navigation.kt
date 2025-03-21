@@ -1,5 +1,7 @@
 package com.example.news.ui.theme.navigation
 
+import android.content.Context
+import android.content.SharedPreferences
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material.icons.rounded.Search
@@ -21,11 +23,13 @@ import java.nio.charset.StandardCharsets
 @Composable
 fun NavigationHost(
 	vm: MainViewModel,
+	sf: SharedPreferences,
+	context: Context,
 	navController: NavHostController = rememberNavController()
 ) {
 	NavHost(navController, startDestination = Route.FEED.name) {
 		composable(Route.FEED.name) {
-			FeedScreen(vm, navController) {
+			FeedScreen(vm, navController, sf, context) {
 				val encodedUrl = URLEncoder.encode(it.url, StandardCharsets.UTF_8.toString())
 				navController.navigate("${Route.DETAILS.name}/$encodedUrl")
 			}
